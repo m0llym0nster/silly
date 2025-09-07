@@ -5,8 +5,11 @@
 
 
 #install deps
-dnf install qemu-kvm libvirt virt-install virt-viewer -y
+#libvirtd required for virtual machines
+dnf install qemu-kvm libvirt libvirtd virt-install virt-viewer -y
+sleep 1
 
+#systemctl enable --now libvirtd.socket
 sleep 5
 
 #start interfaces
@@ -18,7 +21,8 @@ sleep 5
 virt-host-validate
 
 #install cockpit UI
-dnf install cockpit -y
+#without cockpit-machines, you wont see virtual machines, only podman
+dnf install cockpit cockpit-machines -y
 sleep 5
 #enable to run
 systemctl enable --now cockpit.socket
